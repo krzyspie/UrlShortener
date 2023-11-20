@@ -1,10 +1,12 @@
+using Application.Interfaces;
 using Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton(typeof(RandomNumberGenerator));
+builder.Services.AddSingleton<IRandomNumberGenerator, RandomNumberGenerator>();
+builder.Services.AddSingleton<IRandomStringGenerator, RandomStringGenerator>();
 
 var app = builder.Build();
 
