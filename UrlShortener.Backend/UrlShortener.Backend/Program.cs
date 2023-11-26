@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Queries;
 using Application.Services;
 using MediatR;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRandomNumberGenerator, RandomNumberGenerator>();
 builder.Services.AddSingleton<IRandomStringGenerator, RandomStringGenerator>();
+
+var multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(CreateShortUrl).Assembly);
@@ -47,7 +51,7 @@ app.MapGet("/{link}", async (IMediator mediator, string link) =>
 
     var result = await mediator.Send(query);
 
-    return TypedResults.Redirect(result);
+    return result;
 });
 
 app.Run();
