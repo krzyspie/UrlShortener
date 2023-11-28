@@ -1,5 +1,6 @@
 ﻿using Application.Commands;
 using Application.Interfaces;
+using Infrastructure.Repository;
 using MediatR;
 
 namespace Application.CommandHandlers
@@ -7,17 +8,19 @@ namespace Application.CommandHandlers
     public class CreateShortUrlHandler : IRequestHandler<CreateShortUrl, string>
     {
         private readonly IRandomStringGenerator _randomStringGenerator;
+        private readonly IUrlRepository _urlRepository;
 
-        public CreateShortUrlHandler(IRandomStringGenerator randomStringGenerator)
+        public CreateShortUrlHandler(IRandomStringGenerator randomStringGenerator, IUrlRepository urlRepository)
         {
             _randomStringGenerator = randomStringGenerator;
+            _urlRepository = urlRepository;
         }
 
         public Task<string> Handle(CreateShortUrl request, CancellationToken cancellationToken)
         {
             string shortUrl = _randomStringGenerator.Generate();
-
-            return Task.FromResult(shortUrl);
+            var result = _urlRepository.CreateShortUrl(shortUrl);
+            return Task.FromResult(result);
         }
     }
 }

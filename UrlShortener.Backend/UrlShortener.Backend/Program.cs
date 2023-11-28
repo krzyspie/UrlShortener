@@ -2,6 +2,7 @@ using Application.Commands;
 using Application.Interfaces;
 using Application.Queries;
 using Application.Services;
+using Infrastructure.Repository;
 using MediatR;
 using StackExchange.Redis;
 
@@ -14,7 +15,7 @@ builder.Services.AddSingleton<IRandomStringGenerator, RandomStringGenerator>();
 
 var multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-
+builder.Services.AddSingleton<IUrlRepository, UrlRepository>();
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(CreateShortUrl).Assembly);
 });
