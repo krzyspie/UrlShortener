@@ -32,14 +32,21 @@ app.UseHttpsRedirection();
 
 app.MapPost("/shorturl", async (IMediator mediator, string url) =>
 {
+    var isValidUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
+
+    if (!isValidUrl)
+    {
+        return Results.BadRequest();
+    }
+
     CreateShortUrl command = new()
     {
-        Url = url
+        OriginUrl = url
     };
 
     var result = await mediator.Send(command);
 
-    return result;
+    return TypedResults.Ok(result);
 })
 .WithName("CreateShortUrl");
 
@@ -52,7 +59,7 @@ app.MapGet("/{link}", async (IMediator mediator, string link) =>
 
     var result = await mediator.Send(query);
 
-    return result;
+    return TypedResults.Ok(result);
 });
 
 app.Run();
