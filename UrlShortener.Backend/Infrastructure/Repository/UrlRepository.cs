@@ -19,5 +19,14 @@ namespace Infrastructure.Repository
 
             return result;
         }
+
+        public string GetShortUrl(string originUrl)
+        {
+            var db = _redisConnection.GetDatabase();
+
+            var result = db.StringGet(originUrl);
+
+            return result;
+        }
     }
 }

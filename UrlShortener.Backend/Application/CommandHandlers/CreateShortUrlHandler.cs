@@ -19,6 +19,7 @@ namespace Application.CommandHandlers
         public Task<string> Handle(CreateShortUrl request, CancellationToken cancellationToken)
         {
             string shortUrl = _randomStringGenerator.Generate();
+            
             var result = _urlRepository.SaveShortUrl(request.OriginUrl, shortUrl);
             return Task.FromResult(result);
         }
