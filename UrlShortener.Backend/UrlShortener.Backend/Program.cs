@@ -4,6 +4,7 @@ using Application.Queries;
 using Application.Services;
 using Infrastructure.Repository;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRandomNumberGenerator, RandomNumberGenerator>();
 builder.Services.AddSingleton<IRandomStringGenerator, RandomStringGenerator>();
+builder.Services.AddSingleton<IUrlValidator, UrlValidator>();
 
 var multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
@@ -30,13 +32,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/shorturl", async (IMediator mediator, string url) =>
+app.MapPost("/shorturl", async Task<Results<BadRequest<string>, Ok<string>>>(IMediator mediator, IUrlValidator urlValidator, string url) =>
 {
-    var isValidUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
+    var isValidUrl = urlValidator.IsValid(url);
 
     if (!isValidUrl)
     {
-        return Results.BadRequest();
+        return TypedResults.BadRequest("Url not valid.");
     }
 
     CreateShortUrl command = new()
