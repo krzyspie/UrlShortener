@@ -11,20 +11,18 @@ namespace Infrastructure.Repository
             _redisConnection = connectionMultiplexer;
         }
 
-        public string SaveShortUrl(string originUrl, string urlShortcut)
+        public void SaveShortUrl(string originUrl, string urlShortcut)
         {
             var db = _redisConnection.GetDatabase();
 
-            var result = db.StringSetAndGet(originUrl, urlShortcut);
-
-            return result;
+            db.StringSet(urlShortcut, originUrl, TimeSpan.FromMinutes(60));
         }
 
-        public string GetShortUrl(string originUrl)
+        public string GetShortUrl(string urlShortcut)
         {
             var db = _redisConnection.GetDatabase();
 
-            var result = db.StringGet(originUrl);
+            var result = db.StringGet(urlShortcut);
 
             return result;
         }

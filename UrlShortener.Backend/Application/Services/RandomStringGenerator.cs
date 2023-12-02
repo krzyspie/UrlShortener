@@ -23,7 +23,7 @@ namespace Application.Services
 
             for (int i = 0; i < RandomStringLength; i++)
             {
-                int index = _randomNumberGenerator.Generate(maxLenght + 1);
+                int index = _randomNumberGenerator.Generate(maxLenght);
                 var character = UrlChars[index];
                 randomString.Append(character);
             }

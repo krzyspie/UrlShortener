@@ -53,8 +53,13 @@ app.MapPost("/shorturl", async Task<Results<BadRequest<string>, Ok<string>>>(IMe
 })
 .WithName("CreateShortUrl");
 
-app.MapGet("/{link}", async (IMediator mediator, string link) =>
+app.MapGet("/{link}", async Task<Results<BadRequest<string>, Ok<string>>> (IMediator mediator, string link) =>
 {
+    if (string.IsNullOrWhiteSpace(link))
+    {
+        return TypedResults.BadRequest("No link provided");
+    }
+
     GetSourceUrl query = new()
     {
         ShortUrl = link

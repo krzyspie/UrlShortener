@@ -2,8 +2,8 @@
 {
     public interface IUrlRepository
     {
-        string SaveShortUrl(string originUrl, string urlShortcut);
+        void SaveShortUrl(string originUrl, string urlShortcut);
 
-        string GetShortUrl(string originUrl);
+        string GetShortUrl(string urlShortcut);
     }
 }

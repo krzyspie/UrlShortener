@@ -26,9 +26,9 @@ namespace Application.CommandHandlers
 
             string shortUrl = _randomStringGenerator.Generate();
             
-            var result = _urlRepository.SaveShortUrl(request.OriginUrl, shortUrl);
+            _urlRepository.SaveShortUrl(request.OriginUrl, shortUrl);
 
-            return Task.FromResult(result);
+            return Task.FromResult(shortUrl);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.Tests.Services
         {
             // Arrange
             var randomNumberGeneratorMock = Substitute.For<IRandomNumberGenerator>();
-            randomNumberGeneratorMock.Generate(62).Returns(1);
+            randomNumberGeneratorMock.Generate(61).Returns(60);
 
             var service = new RandomStringGenerator(randomNumberGeneratorMock);
 
@@ -19,8 +19,8 @@ namespace Application.Tests.Services
             var result = service.Generate();
 
             // Assert
-            Assert.Equal("bbbbbbbb", result);
-            randomNumberGeneratorMock.Received(8).Generate(62);
+            Assert.Equal("99999999", result);
+            randomNumberGeneratorMock.Received(8).Generate(61);
         }
     }
 }
