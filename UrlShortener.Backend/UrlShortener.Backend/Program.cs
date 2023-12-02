@@ -15,7 +15,8 @@ builder.Services.AddSingleton<IRandomNumberGenerator, RandomNumberGenerator>();
 builder.Services.AddSingleton<IRandomStringGenerator, RandomStringGenerator>();
 builder.Services.AddSingleton<IUrlValidator, UrlValidator>();
 
-var multiplexer = ConnectionMultiplexer.Connect("localhost:6379");
+var redisUrl = builder.Configuration.GetValue<string>("RedisUrl");
+var multiplexer = ConnectionMultiplexer.Connect(redisUrl);
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 builder.Services.AddSingleton<IUrlRepository, UrlRepository>();
 builder.Services.AddMediatR(cfg => {
