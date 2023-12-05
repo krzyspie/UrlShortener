@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.CommandHandlers
 {
-    public class CreateShortUrlHandler : IRequestHandler<CreateShortUrl, string>
+    internal class CreateShortUrlHandler : IRequestHandler<CreateShortUrl, string>
     {
         private readonly IRandomStringGenerator _randomStringGenerator;
         private readonly IUrlRepository _urlRepository;

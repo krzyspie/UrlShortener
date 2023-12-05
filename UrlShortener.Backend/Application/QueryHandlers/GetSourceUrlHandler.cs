@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.QueryHandlers
 {
-    public class GetSourceUrlHandler : IRequestHandler<GetSourceUrl, string>
+    internal class GetSourceUrlHandler : IRequestHandler<GetSourceUrl, string>
     {
         private readonly IUrlRepository _urlRepository;
 
