@@ -29,9 +29,9 @@ namespace Application.Tests.CommandHandlers
             // Assert
             Assert.Equal(existingShortcut, result);
 
-            urlRepositoryMock.Received(1).GetShortUrl(command.OriginUrl);
+            await urlRepositoryMock.Received(1).GetShortUrl(command.OriginUrl);
             randomStringGeneratorMock.DidNotReceive().Generate();
-            urlRepositoryMock.DidNotReceive().SaveShortUrl(Arg.Any<string>(), Arg.Any<string>());
+            await urlRepositoryMock.DidNotReceive().SaveShortUrl(Arg.Any<string>(), Arg.Any<string>());
         }
 
         [Fact]
@@ -55,9 +55,9 @@ namespace Application.Tests.CommandHandlers
 
             // Assert
             Assert.Equal(generatedShortcut, result);
-            urlRepositoryMock.Received(1).GetShortUrl(command.OriginUrl);
+            await urlRepositoryMock.Received(1).GetShortUrl(command.OriginUrl);
             randomStringGeneratorMock.Received(1).Generate();
-            urlRepositoryMock.Received(1).SaveShortUrl(command.OriginUrl, generatedShortcut);
+            await urlRepositoryMock.Received(1).SaveShortUrl(command.OriginUrl, generatedShortcut);
         }
     }
 }

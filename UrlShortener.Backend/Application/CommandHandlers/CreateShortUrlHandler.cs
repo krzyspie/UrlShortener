@@ -16,19 +16,19 @@ namespace Application.CommandHandlers
             _urlRepository = urlRepository;
         }
 
-        public Task<string> Handle(CreateShortUrl request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateShortUrl request, CancellationToken cancellationToken)
         {
-            string existingShortUrl = _urlRepository.GetShortUrl(request.OriginUrl);
+            string existingShortUrl = await _urlRepository.GetShortUrl(request.OriginUrl);
             if (!string.IsNullOrWhiteSpace(existingShortUrl))
             {
-                return Task.FromResult(existingShortUrl);
+                return existingShortUrl;
             }
 
             string shortUrl = _randomStringGenerator.Generate();
             
-            _urlRepository.SaveShortUrl(request.OriginUrl, shortUrl);
+            await _urlRepository.SaveShortUrl(request.OriginUrl, shortUrl);
 
-            return Task.FromResult(shortUrl);
+            return shortUrl;
         }
     }
 }

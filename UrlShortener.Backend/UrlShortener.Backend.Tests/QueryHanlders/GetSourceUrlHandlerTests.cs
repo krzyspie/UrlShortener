@@ -29,7 +29,7 @@ namespace Application.Tests.QueryHanlders
             // Assert
             Assert.Equal(originalUrl, result);
 
-            urlRepositoryMock.Received(1).GetShortUrl(query.ShortUrl);
+            await urlRepositoryMock.Received(1).GetShortUrl(query.ShortUrl);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Application.Tests.QueryHanlders
             // Assert
             Assert.Equal(string.Empty, result);
 
-            urlRepositoryMock.Received(1).GetShortUrl(query.ShortUrl);
+            await urlRepositoryMock.Received(1).GetShortUrl(query.ShortUrl);
         }
     }
 }

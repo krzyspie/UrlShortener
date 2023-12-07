@@ -4,6 +4,6 @@ namespace Application.Commands
 {
     public class CreateShortUrl : IRequest<string>
     {
-        public string OriginUrl { get; set; }
+        public required string OriginUrl { get; set; }
     }
 }

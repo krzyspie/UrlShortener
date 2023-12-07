@@ -12,11 +12,11 @@ namespace Application.QueryHandlers
         {
             _urlRepository = urlRepository;
         }
-        public Task<string> Handle(GetSourceUrl request, CancellationToken cancellationToken)
+        public async Task<string> Handle(GetSourceUrl request, CancellationToken cancellationToken)
         {
-            var url = _urlRepository.GetShortUrl(request.ShortUrl);
+            var url = await _urlRepository.GetShortUrl(request.ShortUrl);
 
-            return Task.FromResult(url ?? string.Empty);
+            return url ?? string.Empty;
         }
     }
 }

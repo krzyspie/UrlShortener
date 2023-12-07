@@ -4,6 +4,6 @@ namespace Application.Queries
 {
     public class GetSourceUrl : IRequest<string>
     {
-        public string ShortUrl { get; set; }
+        public required string ShortUrl { get; set; }
     }
 }
