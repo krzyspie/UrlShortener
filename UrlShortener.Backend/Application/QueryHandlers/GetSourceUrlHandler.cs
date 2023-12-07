@@ -16,7 +16,7 @@ namespace Application.QueryHandlers
         {
             var url = _urlRepository.GetShortUrl(request.ShortUrl);
 
-            return Task.FromResult(url);
+            return Task.FromResult(url ?? string.Empty);
         }
     }
 }
