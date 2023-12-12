@@ -18,30 +18,47 @@ const App = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
       <TextField
         inputRef={textInputRef}
         label="Type url..."
         variant="outlined"
-        style={{ marginBottom: "10px" }}
+        style={{ marginBottom: "10px", width: "300px" }}
       />
       <br />
-      <TextField
-        value={readOnlyText}
-        readOnly
-        rows={4}
-        style={{ width: "300px", marginBottom: "10px" }}
-      />
+      <div
+        style={{ position: "relative", width: "300px", marginBottom: "10px" }}
+      >
+        <TextField
+          value={readOnlyText}
+          readOnly
+          rows={4}
+          fullWidth
+          style={{ width: "300px" }}
+        />
+        <IconButton
+          onClick={handleCopyClick}
+          style={{ position: "absolute", top: "5px", right: "5px" }}
+        >
+          <ContentCopyIcon />
+        </IconButton>
+      </div>
       <br />
-      <Button variant="contained" onClick={handleButtonClick}>
+      <Button
+        variant="contained"
+        onClick={handleButtonClick}
+        style={{ width: "300px" }}
+      >
         Create shortcut
       </Button>
-      <IconButton
-        onClick={handleCopyClick}
-        style={{ float: "right", marginTop: "-30px", marginRight: "5px" }}
-      >
-        <ContentCopyIcon />
-      </IconButton>
     </div>
   );
 };
