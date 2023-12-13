@@ -12,9 +12,14 @@ const App = () => {
     setReadOnlyText("Url shortcut");
   };
 
-  const handleCopyClick = () => {
-    textInputRef.current.select();
-    document.execCommand("copy");
+  const handleCopyClick = async () => {
+    try {
+      // Use navigator.clipboard.writeText to copy text to clipboard
+      await navigator.clipboard.writeText(textInputRef.current.value);
+      console.log("Text copied to clipboard");
+    } catch (err) {
+      console.error("Unable to copy text to clipboard", err);
+    }
   };
 
   return (
@@ -28,7 +33,6 @@ const App = () => {
       }}
     >
       <TextField
-        inputRef={textInputRef}
         label="Type url..."
         variant="outlined"
         style={{ marginBottom: "10px", width: "300px" }}
@@ -38,6 +42,7 @@ const App = () => {
         style={{ position: "relative", width: "300px", marginBottom: "10px" }}
       >
         <TextField
+          inputRef={textInputRef}
           value={readOnlyText}
           readOnly
           rows={4}
