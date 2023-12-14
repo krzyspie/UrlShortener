@@ -7,15 +7,31 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopyOutlined";
 const App = () => {
   const [readOnlyText, setReadOnlyText] = useState("");
   const textInputRef = useRef(null);
+  const textReadOnlyInputRef = useRef(null);
 
-  const handleButtonClick = () => {
-    setReadOnlyText("Url shortcut");
+  const handleButtonClick = async () => {
+    try {
+      const url = textInputRef.current.value;
+      const response = await fetch(
+        `https://localhost:7219/shorturl?url=${url}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+
+      setReadOnlyText(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const handleCopyClick = async () => {
     try {
-      // Use navigator.clipboard.writeText to copy text to clipboard
-      await navigator.clipboard.writeText(textInputRef.current.value);
+      await navigator.clipboard.writeText(textReadOnlyInputRef.current.value);
       console.log("Text copied to clipboard");
     } catch (err) {
       console.error("Unable to copy text to clipboard", err);
@@ -33,6 +49,7 @@ const App = () => {
       }}
     >
       <TextField
+        inputRef={textInputRef}
         label="Type url..."
         variant="outlined"
         style={{ marginBottom: "10px", width: "300px" }}
@@ -42,7 +59,7 @@ const App = () => {
         style={{ position: "relative", width: "300px", marginBottom: "10px" }}
       >
         <TextField
-          inputRef={textInputRef}
+          inputRef={textReadOnlyInputRef}
           value={readOnlyText}
           readOnly
           rows={4}
