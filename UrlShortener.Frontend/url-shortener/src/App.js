@@ -3,8 +3,14 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopyOutlined";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 
-const App = () => {
+const Home = () => {
   const [readOnlyText, setReadOnlyText] = useState("");
   const textInputRef = useRef(null);
   const textReadOnlyInputRef = useRef(null);
@@ -84,5 +90,36 @@ const App = () => {
     </div>
   );
 };
+
+const DisplayParameter = () => {
+  let { param } = useParams();
+
+  const handleButtonClick2 = () => {
+    window.location.href = "http://www.example.com";
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Display Parameter</h2>
+      <p>Parameter Value: {param}</p>
+      <Button
+        variant="contained"
+        onClick={handleButtonClick2}
+        style={{ width: "300px" }}
+      >
+        redirect
+      </Button>
+    </div>
+  );
+};
+
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/:param" element={<DisplayParameter />} />
+    </Routes>
+  </Router>
+);
 
 export default App;
